@@ -1,6 +1,6 @@
 [project]
 name = "celeste-ai"
-version = "1.0.0"
+version = "0.0.2"
 description = "Celeste AI Framework - Multi-modal AI interface (placeholder)"
 authors = [{name = "agent-kai", email = "kai@celeste-ai.co"}]
 readme = "README.md"
@@ -117,32 +117,7 @@ disallow_incomplete_defs = false
 
 [tool.bandit]
 exclude_dirs = [".venv", "__pycache__"]
-# Skip B101 (assert_used) since we use pytest
-skips = ["B101"]
+skips = ["B101"] # Skip B101 (assert_used) since we use pytest
 
 [tool.bandit.assert_used]
-# Allow assertions in test files
-skips = ["*/test_*.py", "*_test.py"]
-
-# Note: dev dependencies are in [project.optional-dependencies]
-# This section can be removed as it's non-standard
-
-[tool.semantic_release]
-version_toml = ["pyproject.toml:project.version"]
-branch = "main"
-upload_to_pypi = false  # We handle this separately in CI
-upload_to_release = true
-build_command = """
-curl -LsSf https://astral.sh/uv/install.sh | sh && \
-export PATH="$HOME/.local/bin:$PATH" && \
-uv sync && \
-uv build
-"""
-commit_message = "chore(release): {version} [skip ci]"
-
-# Using PEP 735 dependency groups (supported by uv)
-# For older tools, these would go in [project.optional-dependencies]
-[dependency-groups]
-dev = [
-    "python-semantic-release>=10.4.1",
-]
+skips = ["*/test_*.py", "*_test.py"] # Allow assertions in test files
