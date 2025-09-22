@@ -126,3 +126,16 @@ skips = ["*/test_*.py", "*_test.py"]
 
 # Note: dev dependencies are in [project.optional-dependencies]
 # This section can be removed as it's non-standard
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+branch = "main"
+upload_to_pypi = false  # We handle this separately in CI
+upload_to_release = true
+build_command = "uv build"
+commit_message = "chore(release): {version} [skip ci]"
+
+[dependency-groups]
+dev = [
+    "python-semantic-release>=10.4.1",
+]
