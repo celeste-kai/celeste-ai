@@ -3,6 +3,9 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
+      - id: no-commit-to-branch
+        name: "🚫 Prevent commits to protected branches"
+        args: [--branch, main, --branch, master, --branch, develop]
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
@@ -11,9 +14,6 @@ repos:
       - id: check-merge-conflict
       - id: check-json
       - id: debug-statements  # Check for print/pdb statements
-      - id: no-commit-to-branch
-        name: "🚫 Prevent commits to protected branches"
-        args: [--branch, main, --branch, master, --branch, develop]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.13.1
