@@ -55,3 +55,13 @@ repos:
         name: "📓 Clean Jupyter notebook outputs"
         description: "Strip output from Jupyter notebooks"
         args: [--max-size=5]
+
+  - repo: local
+    hooks:
+      - id: pytest
+        name: "🧪 Run tests with coverage"
+        entry: uv run pytest tests/ --cov=celeste --cov-report=term-missing --cov-fail-under=90
+        language: system
+        types: [python]
+        pass_filenames: false
+        always_run: true
