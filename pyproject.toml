@@ -135,6 +135,8 @@ upload_to_release = true
 build_command = "uv build"
 commit_message = "chore(release): {version} [skip ci]"
 
+# Using PEP 735 dependency groups (supported by uv)
+# For older tools, these would go in [project.optional-dependencies]
 [dependency-groups]
 dev = [
     "python-semantic-release>=10.4.1",
