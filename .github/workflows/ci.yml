@@ -165,3 +165,29 @@ jobs:
         with:
           name: dist
           path: dist/
+
+  publish:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    # Only publish on push to main, not on PRs
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [lint, type-check, security, test, build]
+    # Requires setting up Trusted Publishing on PyPI:
+    # 1. Go to https://pypi.org/manage/project/celeste-ai/settings/publishing/
+    # 2. Add GitHub publisher with: owner=celeste-kai, repo=celeste-ai, workflow=ci.yml, environment=pypi
+    environment:
+      name: pypi
+      url: https://pypi.org/project/celeste-ai/
+    permissions:
+      id-token: write  # OIDC publishing
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true  # Skip if version already exists
