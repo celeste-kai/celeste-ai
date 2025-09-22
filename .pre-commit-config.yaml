@@ -11,6 +11,9 @@ repos:
       - id: check-merge-conflict
       - id: check-json
       - id: debug-statements  # Check for print/pdb statements
+      - id: no-commit-to-branch
+        name: "🚫 Prevent commits to protected branches"
+        args: [--branch, main, --branch, master, --branch, develop]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.8.4
@@ -43,3 +46,11 @@ repos:
         name: "🔒 Security check with Bandit"
         args: ["-c", "pyproject.toml"]
         additional_dependencies: ["bandit[toml]"]
+
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.7.1
+    hooks:
+      - id: nbstripout
+        name: "📓 Clean Jupyter notebook outputs"
+        description: "Strip output from Jupyter notebooks"
+        args: [--max-size=5]
