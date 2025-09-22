@@ -16,7 +16,7 @@ repos:
         args: [--branch, main, --branch, master, --branch, develop]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.8.4
+    rev: v0.13.1
     hooks:
       # Run the linter
       - id: ruff
@@ -37,7 +37,8 @@ repos:
           pydantic-settings,
           pytest,
         ]
-        args: [--config-file=pyproject.toml]
+        args: [--config-file=pyproject.toml, src/, tests/]
+        pass_filenames: false
 
   - repo: https://github.com/PyCQA/bandit
     rev: 1.7.10
