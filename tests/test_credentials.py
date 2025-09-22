@@ -67,9 +67,9 @@ class TestCredentialsLoading:
 
         # Assert - verify ALL credential fields are None
         for _provider, field_name in PROVIDER_CREDENTIAL_MAP.items():
-            assert (
-                getattr(creds, field_name) is None
-            ), f"{field_name} should be None when no env vars set"
+            assert getattr(creds, field_name) is None, (
+                f"{field_name} should be None when no env vars set"
+            )
 
 
 class TestGetCredentials:
@@ -300,9 +300,9 @@ class TestProviderMapping:
 
         # Act & Assert - verify each mapping points to a real field
         for provider, field_name in PROVIDER_CREDENTIAL_MAP.items():
-            assert hasattr(
-                creds, field_name
-            ), f"Missing field {field_name} for {provider}"
+            assert hasattr(creds, field_name), (
+                f"Missing field {field_name} for {provider}"
+            )
 
 
 class TestEdgeCases:

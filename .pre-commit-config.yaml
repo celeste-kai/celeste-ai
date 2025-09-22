@@ -3,6 +3,9 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
+      - id: no-commit-to-branch
+        name: "🚫 Prevent commits to protected branches"
+        args: [--branch, main, --branch, master, --branch, develop]
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
@@ -13,7 +16,7 @@ repos:
       - id: debug-statements  # Check for print/pdb statements
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.8.4
+    rev: v0.13.1
     hooks:
       # Run the linter
       - id: ruff
@@ -34,7 +37,8 @@ repos:
           pydantic-settings,
           pytest,
         ]
-        args: [--config-file=pyproject.toml]
+        args: [--config-file=pyproject.toml, src/, tests/]
+        pass_filenames: false
 
   - repo: https://github.com/PyCQA/bandit
     rev: 1.7.10
@@ -43,3 +47,11 @@ repos:
         name: "🔒 Security check with Bandit"
         args: ["-c", "pyproject.toml"]
         additional_dependencies: ["bandit[toml]"]
+
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.7.1
+    hooks:
+      - id: nbstripout
+        name: "📓 Clean Jupyter notebook outputs"
+        description: "Strip output from Jupyter notebooks"
+        args: [--max-size=5]
