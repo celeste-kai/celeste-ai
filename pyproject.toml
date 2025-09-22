@@ -134,7 +134,7 @@ upload_to_pypi = false  # We handle this separately in CI
 upload_to_release = true
 build_command = """
 curl -LsSf https://astral.sh/uv/install.sh | sh && \
-source /root/.local/bin/env && \
+export PATH="/root/.local/bin:$PATH" && \
 uv sync && \
 uv build
 """
