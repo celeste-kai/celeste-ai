@@ -133,69 +133,10 @@ jobs:
           name: codecov-umbrella
           fail_ci_if_error: false
 
-  release:
-    name: Semantic Release
-    runs-on: ubuntu-latest
-    # Only run on main branch after tests pass
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [lint, type-check, security, test]
-    permissions:
-      contents: write  # To push version bump commit
-      id-token: write  # For PyPI trusted publishing
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Need full history for semantic release
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Python Semantic Release
-        uses: python-semantic-release/python-semantic-release@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
   build:
     name: Build Package
     runs-on: ubuntu-latest
-    if: github.event_name != 'push' || github.ref != 'refs/heads/main'
-    needs: [test]  # Only for PRs and non-main branches
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v3
-        with:
-          enable-cache: true
-          cache-dependency-glob: "**/pyproject.toml"
-
-      - name: Install dependencies
-        run: |
-          uv sync --extra dev
-
-      - name: Build package
-        run: |
-          uv build
-
-      - name: Check package
-        run: |
-          uv pip install twine
-          uv run twine check dist/*
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
-
-  build-after-release:
-    name: Build Package (After Release)
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [release]  # For main branch, wait for version bump
+    needs: [test]
     steps:
       - uses: actions/checkout@v4
 
@@ -234,7 +175,7 @@ jobs:
     runs-on: ubuntu-latest
     # Only publish on push to main, not on PRs
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [build-after-release]  # Use the build that happens after version bump
+    needs: [build]  # Use the build artifacts
     # Requires setting up Trusted Publishing on PyPI:
     # 1. Go to https://pypi.org/manage/project/celeste-ai/settings/publishing/
     # 2. Add GitHub publisher with: owner=celeste-kai, repo=celeste-ai, workflow=ci.yml, environment=pypi
