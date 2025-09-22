@@ -1,5 +1,8 @@
 # Celeste AI Framework
 
+[![semantic-release: conventionalcommits](https://img.shields.io/badge/semantic--release-conventionalcommits-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+[![PyPI version](https://badge.fury.io/py/celeste-ai.svg)](https://pypi.org/project/celeste-ai/)
+
 > **Note: This is a placeholder package to reserve the name. The full framework is coming soon!**
 
 Celeste AI will be a unified multi-modal AI framework providing a single interface for:
