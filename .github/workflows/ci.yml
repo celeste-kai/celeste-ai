@@ -151,6 +151,10 @@ jobs:
           enable-cache: true
           cache-dependency-glob: "**/pyproject.toml"
 
+      - name: Install dependencies
+        run: |
+          uv sync --extra dev
+
       - name: Build package
         run: |
           uv build
